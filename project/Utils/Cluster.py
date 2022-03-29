@@ -3,8 +3,11 @@ class Cluster:
         self.X = X
         self.y = y
 
-    def removePoint(self, x):
+    def removeSample(self, x):
         self.X.remove(x)
 
-    def addPoint(self, x):
-        self.X.add(x)
+    def addSample(self, x):
+        self.X.append(x)
+
+    def clear(self):
+        self.X = list()

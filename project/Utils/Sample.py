@@ -11,3 +11,6 @@ class Sample:
 
     def setY(self, y):
         self.y = y
+
+    def __str__(self):
+        return f'x:{self.x},y:{self.y}'
