@@ -9,5 +9,8 @@ class Cluster:
     def addSample(self, x):
         self.X.append(x)
 
+    def getX(self):
+        return self.X
+
     def clear(self):
         self.X = list()
