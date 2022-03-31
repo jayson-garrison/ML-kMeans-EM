@@ -11,3 +11,6 @@ class Sample:
 
     def setY(self, y):
         self.y = y
+
+    def getDim(self):
+        return len(self.x)

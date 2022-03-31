@@ -7,4 +7,4 @@ class Cluster:
         self.X.remove(x)
 
     def addPoint(self, x):
-        self.X.add(x)
+        self.X.append(x)

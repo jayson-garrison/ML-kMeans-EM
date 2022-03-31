@@ -1,3 +1,4 @@
+from cmath import pi
 import numpy as np
 class GaussianDistribution:
 
@@ -18,6 +19,7 @@ class GaussianDistribution:
         
         '''
         # if div doesnt work use matmul by a scalar
+        self.dim = len(points[0])
         self.points = points
         self.phi = len(points) / num_samples
 
@@ -35,6 +37,10 @@ class GaussianDistribution:
             np.add(var, cov)
             
         self.big_sig = cov
+
+    def calculate_gaussian_density(self):
+        gd = 1 / ( (2*np.pi)^(n/2) * )
+        pass
 
     def calculate_phi(self, points):
         '''
