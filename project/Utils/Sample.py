@@ -14,3 +14,6 @@ class Sample:
 
     def getDim(self):
         return len(self.x)
+        
+    def __str__(self):
+        return f'x:{self.x},y:{self.y}'
