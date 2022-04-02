@@ -1,22 +1,16 @@
-from Utils.miscellaneous import load_image_as_samples
+from Utils.miscellaneous import load_image_as_samples, load_gaussian_file_as_samples, visualize_gaussian_1d
 from KMeans.kmeans import KMeans
 import numpy as np
 from matplotlib import pyplot
 
 if  __name__ == "__main__":
-    k = 10
-    samples = load_image_as_samples("TheLastSupper.jpg", k)
-    model = KMeans(samples, k, 3)
-    model.learn()
-    # model.print()
-    # centroids = [
-    #     np.array([141.27525708,  83.04562434,  51.87597062]),
-    #     np.array([71.20391167, 44.68660358, 35.25863302]),
-    #     np.array([15.73987535,  9.83868618,  8.91354649]),
-    #     np.array([174.26830247, 118.22713224,  81.88163265]),
-    #     np.array([221.94372481, 125.39717818,  78.69422198])
-    # ]
-    # model.setCentroids(centroids)
-    # model.print()
-    model.paint_by_numbers("TheLastSupper.jpg")
+    k = 3
+    # samples = load_image_as_samples("Colors.jpg", k)
+    samples = load_gaussian_file_as_samples(2, k)
+    model = KMeans(samples=samples, k=k, dimensions=1)
+    model.learn(C=2/len(samples))
+    llhd = model.evaluate_likelihood()
+    print(llhd)
+    visualize_gaussian_1d(file_no=2, estimted_means=model.getCentroids())
     
+    # model.paint_by_numbers("TheLastSupper.jpg")
