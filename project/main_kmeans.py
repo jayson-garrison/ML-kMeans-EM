@@ -41,9 +41,24 @@ def run_gaussian_test(theta):
     visualize_gaussian_1d(file_no=file_no, estimted_means=model.getCentroids(), save_path=visual_file_name, show=False)
 
 
+def run_image_test(theta):
+    img_name = theta[0] + ".jpg"
+    num_clusters = theta[1]
+    samples = load_image_as_samples(img_name, num_clusters)
+    img_output_name = f'project/KMeans/Output/Images/{theta[0]}_clusters{num_clusters}.jpg'
+    os.makedirs(os.path.dirname(img_output_name), exist_ok=True)
+
+    # Compress the image
+    model = KMeans(samples=samples, k=num_clusters, dimensions=3)
+    model.learn(C=2/len(samples))
+    model.paint_by_numbers(img_name, save_path=img_output_name, show=False)
+
+
 
 if  __name__ == "__main__":
-    run_gaussian_tests = True
+    run_gaussian_tests = False
+    run_image_tests = True
+
     Theta_Gaussian = [
         # file_no, number_of_clusters, 
         # Experiment 1: ===============================================
@@ -88,14 +103,29 @@ if  __name__ == "__main__":
         (18, 5),
         (19, 5),
     ]
-
     if run_gaussian_tests:
         for theta in Theta_Gaussian:
             run_gaussian_test(theta)
+
+    Theta_Image = [
+        # ('DivineMercy', 3),
+        # ('SistineChapel', 3),
+        ('TheCoronation', 3),
+        ('TheCrucifixion', 3),
+        ('TheVirginAdoring', 3),
+        # ('DivineMercy', 5),
+        # ('SistineChapel', 5),
+        ('TheCoronation', 5),
+        ('TheCrucifixion', 5),
+        ('TheVirginAdoring', 5),
+        # ('DivineMercy', 10),
+        ('SistineChapel', 10),
+        ('TheCoronation', 10),
+        ('TheCrucifixion', 10),
+        ('TheVirginAdoring', 10),
+    ]
+    if run_image_tests:
+        for theta in Theta_Image:
+            run_image_test(theta)
             
-
-    # samples = load_image_as_samples("Colors.jpg", k)
-
-    
-    
-    # model.paint_by_numbers("TheLastSupper.jpg")
+            

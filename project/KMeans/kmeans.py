@@ -76,7 +76,7 @@ class KMeans():
     def setCentroids(self, centroids):
         self.centroids = centroids
         
-    def paint_by_numbers(self, image_name):
+    def paint_by_numbers(self, image_name, save_path="", show=True):
         cwd = os.getcwd()
         jpg_path = cwd+"\\project\\Datasets\\JPGs\\"
         # load image as pixel array
@@ -93,7 +93,14 @@ class KMeans():
                         closest_k = k
                 img[row][col] = self.centroids[closest_k]
         pyplot.imshow(img)
-        pyplot.show()
+        ax = pyplot.gca()
+        ax.axes.get_yaxis().set_visible(False)
+        ax.axes.get_xaxis().set_visible(False)
+        if save_path != "":
+            pyplot.savefig(save_path)
+        if show:
+            pyplot.show()
+        pyplot.close()
 
 
     def evaluate_likelihood(self):
