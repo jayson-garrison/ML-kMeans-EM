@@ -10,26 +10,35 @@ import java.util.Vector;
 public class Driver {
 	static int fileNo=1;
 	public static void main(String[] args) {
-		// Experiment 1
-		generateWithParameters(3, 1000, 0.5,1,1, "File"+fileNo+".txt");
-		generateWithParameters(3, 1000, 1,1,1, "File"+fileNo+".txt");
-		generateWithParameters(3, 1000, 1.5,1,1, "File"+fileNo+".txt");
-		generateWithParameters(5, 1000, 0.5,1,1, "File"+fileNo+".txt");
-		generateWithParameters(5, 1000, 1,1,1, "File"+fileNo+".txt");
-		generateWithParameters(5, 1000, 1.5,1,1, "File"+fileNo+".txt");
-		generateWithParameters(7, 1000, 0.5,1,1, "File"+fileNo+".txt");
-		generateWithParameters(7, 1000, 1,1,1, "File"+fileNo+".txt");
-		generateWithParameters(7, 1000, 1.5,1,1, "File"+fileNo+".txt");
-		// Experiment 2
-		generateWithParameters(3, 1000, 1.25,2,2, "File"+fileNo+".txt");
-		generateWithParameters(3, 1000, 1.25,5,5, "File"+fileNo+".txt");
-		generateWithParameters(3, 1000, 1.25,10,10, "File"+fileNo+".txt");
-		// Experiment 3
-		generateWithParameters(3, 1000, 1.25,0.75,2, "File"+fileNo+".txt");
-		// Experiment 4
-		generateWithParameters(3, 100, 1,1,1, "File"+fileNo+".txt");
-		generateWithParameters(3, 1000, 1,1,1, "File"+fileNo+".txt");
-		generateWithParameters(3, 10000, 1,1,1, "File"+fileNo+".txt");
+		// Experiment 1: ===============================================
+		// 3 sources
+		generateWithParameters(3, 1000, .5, 1, 1, "File"+fileNo+".txt"); 		// 1
+		generateWithParameters(3, 1000, 1, 1, 1, "File"+fileNo+".txt");			// 2
+		generateWithParameters(3, 1000, 1.5, 1, 1, "File"+fileNo+".txt");		// 3
+		generateWithParameters(3, 1000, 2, 1, 1, "File"+fileNo+".txt"); 		// 4
+		// 5 sources
+		generateWithParameters(5, 1000, .5, 1, 1, "File"+fileNo+".txt"); 		// 5
+		generateWithParameters(5, 1000, 1, 1, 1, "File"+fileNo+".txt");			// 6
+		generateWithParameters(5, 1000, 1.5, 1, 1, "File"+fileNo+".txt");		// 7
+		generateWithParameters(5, 1000, 2, 1, 1, "File"+fileNo+".txt"); 		// 8
+		// 10 sources
+		generateWithParameters(10, 1000, .5, 1, 1, "File"+fileNo+".txt");		// 9
+		generateWithParameters(10, 1000, 1, 1, 1, "File"+fileNo+".txt");		// 10
+		generateWithParameters(10, 1000, 1.5, 1, 1, "File"+fileNo+".txt");		// 11
+		generateWithParameters(10, 1000, 2, 1, 1, "File"+fileNo+".txt");		// 12
+
+		// Experiment 2: ===============================================
+		generateWithParameters(5, 1000, 3, 1, 1, "File"+fileNo+".txt");			// 13
+		generateWithParameters(5, 1000, 3, 2, 2, "File"+fileNo+".txt");			// 14
+		generateWithParameters(5, 1000, 3, 3, 3, "File"+fileNo+".txt");			// 15
+
+		// Experiment 3: ===============================================
+		generateWithParameters(5, 1000, 1.25, 0.75, 2, "File"+fileNo+".txt");	// 16
+
+		// Experiment 4: ===============================================
+		generateWithParameters(5, 100, 1.25, .75, .75, "File"+fileNo+".txt");	// 17
+		generateWithParameters(5, 1000, 1.25, .75, .75, "File"+fileNo+".txt");	// 18
+		generateWithParameters(5, 5000, 1.25, .75, .75, "File"+fileNo+".txt");	// 19
 		
 		
 	} 

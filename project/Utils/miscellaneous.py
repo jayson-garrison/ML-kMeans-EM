@@ -27,8 +27,6 @@ def load_gaussian_file_as_samples(file_no, k):
         content = line.split()
         if content[0] == "Gaussian":
             continue
-        true_label = float(content[0])
-
         sample = Sample(np.array([float(content[1])]), np.random.randint(k), float(content[0]))
         samples.append(sample)
     return samples
