@@ -17,7 +17,6 @@ class KMeans():
         self.initialize_clusters_and_centroids()
         num_changed_samples = len(self.samples)
         while(num_changed_samples > (len(self.samples)*C)):
-            print("Re-Clustering")
             for k in range(self.k):
                 centroid = self.compute_centroid(self.clusters[k])
                 self.centroids[k] = centroid
@@ -118,9 +117,7 @@ class KMeans():
             # is the sum of the handshake number for each of the class counts for the cluster
             for ct in true_label_cts:
                 num_matching_pairs += (ct)*(ct-1)/2
-            print(true_label_cts)
             likelihood += num_matching_pairs/(n-1)
-            print(likelihood)
         # We have summed the fraction of pairs belonging to the same output (for each output)
         # Now we divide by the total number of points
         likelihood = likelihood/N

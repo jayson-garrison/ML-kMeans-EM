@@ -31,7 +31,7 @@ def load_gaussian_file_as_samples(file_no, k):
         samples.append(sample)
     return samples
     
-def visualize_gaussian_1d(file_no, estimted_means=[]):
+def visualize_gaussian_1d(file_no, estimted_means=[], save_path="", show=True):
     cwd = os.getcwd()
     local_path = cwd+"\\project\\Datasets\\Gaussian\\"
     fname = local_path+"File"+str(file_no)+".txt"
@@ -67,9 +67,11 @@ def visualize_gaussian_1d(file_no, estimted_means=[]):
     # Rescale the figure
     fig = pyplot.gcf()
     fig.set_size_inches(8, 2)
-    # fig.savefig('test2png.png', dpi=100)
-
-    pyplot.show()
+    if show:
+        pyplot.show()
+    if save_path != "":
+        pyplot.savefig(save_path)
+    pyplot.close()
 
 
         
