@@ -1,4 +1,4 @@
-from Utils.miscellaneous import load_image_as_samples, load_gaussian_file_as_samples, visualize_gaussian_1d
+from Utils.miscellaneous import load_image_as_samples, load_gaussian_file_as_samples, visualize_gaussian_1d, load_iris_data_as_samples
 from KMeans.kmeans import KMeans
 import numpy as np
 from matplotlib import pyplot
@@ -54,10 +54,17 @@ def run_image_test(theta):
     model.paint_by_numbers(img_name, save_path=img_output_name, show=False)
 
 
+def run_iris_test(theta):
+    num_clusters = 3
+    samples = load_iris_data_as_samples(num_clusters)
+    print(samples[0])
+
+
 
 if  __name__ == "__main__":
     run_gaussian_tests = False
     run_image_tests = True
+    run_iris_tests = False
 
     Theta_Gaussian = [
         # file_no, number_of_clusters, 
@@ -108,18 +115,21 @@ if  __name__ == "__main__":
             run_gaussian_test(theta)
 
     Theta_Image = [
+        # ('Guadalupe', 3),
+        # ('OurLadyOfMercy', 3),
         # ('DivineMercy', 3),
-        # ('SistineChapel', 3),
-        ('TheCoronation', 3),
-        ('TheCrucifixion', 3),
-        ('TheVirginAdoring', 3),
+        # ('TheCoronation', 3),
+        # ('TheCrucifixion', 3),
+        # ('TheVirginAdoring', 3),
+        # ('Guadalupe', 5),
+        # ('OurLadyOfMercy', 5),
         # ('DivineMercy', 5),
-        # ('SistineChapel', 5),
-        ('TheCoronation', 5),
-        ('TheCrucifixion', 5),
-        ('TheVirginAdoring', 5),
-        # ('DivineMercy', 10),
-        ('SistineChapel', 10),
+        # ('TheCoronation', 5),
+        # ('TheCrucifixion', 5),
+        # ('TheVirginAdoring', 5),
+        ('Guadalupe', 10),
+        ('OurLadyOfMercy', 10),
+        ('DivineMercy', 10),
         ('TheCoronation', 10),
         ('TheCrucifixion', 10),
         ('TheVirginAdoring', 10),
@@ -128,4 +138,12 @@ if  __name__ == "__main__":
         for theta in Theta_Image:
             run_image_test(theta)
             
-            
+    Iris_Theta = [
+        ('SSE'),
+        ('Silhouette'),
+        ('Other')
+    ]
+    if run_iris_tests:
+        for theta in Iris_Theta:
+            run_iris_test(theta)
+            break
