@@ -89,5 +89,52 @@ def load_iris_data_as_samples(k):
     return samples
         
 
+def sum_squared_errors(samples, target):
+    sse = 0
+    for sample in samples:
+        x = sample.getX()
+        dif = target - x
+        for dimension in dif:
+            sse += dimension * dimension
+    return sse
 
+def silhouette(clusters, centroids):
+    # a = mean intra-cluster distance
+    a = 0
+    tot = 0
+    for idx in range(len(centroids)):
+        samples = clusters[idx].getX()
+        centroid = centroids[idx]
+        tot += len(samples)
+        a += sum_squared_errors(samples, centroid)
+    a = a/tot
+
+    # b = mean nearest-cluster distance
+    b = 0
+    for i in range(len(centroids)):
+        samples = clusters[i].getX()
+        for sample in samples:
+            # Find the smallest nearest-cluster distance for the current sample
+            distances = []
+            for j in range(len(centroids)):
+                if j == i: continue
+                dif = centroids[j] - sample.getX()
+                dist = 0
+                for dimension in dif:
+                    dist += dimension * dimension
+                distances.append(dist)
+            b += min(distances)
+    b = b/tot
+
+    # Now the silhouette idx is given by (b-a)/max(a,b)
+    return (b-a)/max(a,b)
+
+            
+
+
+
+
+
+
+    pass
 

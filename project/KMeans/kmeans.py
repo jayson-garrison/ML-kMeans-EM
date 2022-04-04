@@ -72,6 +72,9 @@ class KMeans():
 
     def getCentroids(self):
         return self.centroids
+    
+    def getClusters(self):
+        return self.clusters
 
     def setCentroids(self, centroids):
         self.centroids = centroids
