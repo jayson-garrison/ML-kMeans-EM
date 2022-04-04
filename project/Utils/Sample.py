@@ -1,15 +1,8 @@
 class Sample:
-    def __init__(self, x, y):
-        '''
-        Sample object where x is a numpy array (vector) of any dimension
-        with an associated label y
-
-        @param x: the vector
-
-        @param y: the associated label
-        '''
+    def __init__(self, x, y, true_label="NA"):
         self.x = x
         self.y = y
+        self.true_label = true_label
 
     def getX(self):
         '''
@@ -42,6 +35,8 @@ class Sample:
         @return dim(x)
         '''
         return len(self.x)
+    def getTrueLabel(self):
+        return self.true_label
 
     def __str__(self):
         return f'x:{self.x},y:{self.y}'
