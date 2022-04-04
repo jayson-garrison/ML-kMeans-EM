@@ -68,19 +68,18 @@ def run_iris_test(theta):
     if metric == 'SSE':
         for idx in range(len(centroids)):
             result += sum_squared_errors(clusters[idx].getX(), centroids[idx])
-        print(result)
+        print(f'{metric}: {result}')
         return result
     elif metric == 'Silhouette':
         # NOTE: 1 is the best, -1 is the worst
         result = silhouette(clusters, centroids)
-        print(result)
+        print(f'{metric}: {result}')
         return result
-
-    
-
-
-
-
+    elif metric == 'Dunn':
+        # NOTE: larger dunn index is better
+        result = dunn(clusters)
+        print(f'{metric}: {result}')
+        return result
 
 
 
@@ -164,7 +163,7 @@ if  __name__ == "__main__":
     Iris_Theta = [
         'SSE',
         'Silhouette',
-        'Other'
+        'Dunn'
     ]
     if run_iris_tests:
         for theta in Iris_Theta:
