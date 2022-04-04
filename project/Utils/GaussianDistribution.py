@@ -1,8 +1,9 @@
 from cmath import pi
 import numpy as np
+from Utils.Cluster import Cluster
 class GaussianDistribution:
 
-    def __init__(self, points, num_samples) -> None:
+    def __init__(self, cluster, num_samples) -> None:
         '''
         Gaussian Distribution
 
@@ -19,28 +20,32 @@ class GaussianDistribution:
         
         '''
         # if div doesnt work use matmul by a scalar
-        self.dim = len(points[0])
-        self.points = points
-        self.phi = len(points) / num_samples
+        self.dim = cluster.getX()[0].getDim()
+        self.cluster = cluster
+        self.phi = cluster.getMagnitude() / num_samples
 
-        total = np.zeros(len(points[0]))
+        total = np.zeros(self.dim)
 
-        for point in points:
-            np.add(total, point)
+        for point in cluster:
+            np.add(total, point.getX())
         
-        self.mu = np.divide(total, len(points[0]))
+        self.mu = np.divide(total, self.cluster.getMagnitude())
         
-        cov = np.zeros((len(points[0]),len(points[0])))
+        cov = np.zeros((self.dim, self.dim))
 
-        for point in points:
-            var = np.divide(np.matmul(np.subtract(point, self.mu), np.matrix.transpose(np.subtract(point, self.mu))), len(points[0]))
+        for point in cluster:
+            # verify this
+            var = np.divide(np.matmul(np.subtract(point.getX(), self.mu), np.matrix.transpose(np.subtract(point.getX(), self.mu))), self.cluster.getMagnitude())
             np.add(var, cov)
             
         self.big_sig = cov
 
-    def calculate_gaussian_density(self):
-        gd = 1 / ( (2*np.pi)^(n/2) * )
-        pass
+    def calculate_gaussian_density(self, given_sample):
+        gd = 1 / ( (2*np.pi)^(self.dim/2) * (np.abs(self.big_sig))^(.5) )
+        gd = gd * np.exp( -.5 * np.matrix.transpose( (given_sample - self.mu) ) * \
+                           np.linalg.inv(self.big_sig) * (given_sample * self.mu) )
+                           
+        return gd
 
     def calculate_phi(self, points):
         '''

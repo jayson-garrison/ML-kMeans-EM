@@ -13,7 +13,10 @@ class ExpectationMaximization:
         self.distributions = list()
         # |clusters| = k
 
-        clusters = list(Cluster())
+        clusters = list()
+
+        for dist_num in range(k):
+            clusters.append(Cluster(list(), dist_num))
 
         # seperate each sample into the correct cluster
         for sample in samples:
