@@ -3,7 +3,7 @@ import numpy as np
 from Utils.Cluster import Cluster
 class GaussianDistribution:
 
-    def __init__(self, cluster, num_samples) -> None:
+    def __init__(self, cluster, num_samples, k) -> None:
         '''
         Gaussian Distribution
 
@@ -19,10 +19,13 @@ class GaussianDistribution:
         of this space)
         
         '''
+        #self.num_samples = num_samples
+        self.id = k
         # if div doesnt work use matmul by a scalar
         self.dim = cluster.getX()[0].getDim()
         self.cluster = cluster
         self.phi = cluster.getMagnitude() / num_samples
+        self.w = list()
 
         total = np.zeros(self.dim)
 
@@ -47,7 +50,7 @@ class GaussianDistribution:
                            
         return gd
 
-    def calculate_phi(self, points):
+    def calculate_phi(self):
         '''
         calculate the phi based on the EM update (Ng)
 
@@ -55,11 +58,16 @@ class GaussianDistribution:
         '''
 
         #perform the calculation for phi based on the m step
-        self.points = points
-        self.phi = -1
-        pass
+        # self.points = points
+        self.phi = 0
 
-    def calculate_mu(self, points):
+        for possibility in self.w:
+            self.phi += possibility
+
+        self.cum_w = self.phi
+        self.phi / len(self.w)
+
+    def calculate_mu(self):
         '''
         calculate the mu based on the EM update (Ng)
 
@@ -67,10 +75,13 @@ class GaussianDistribution:
         '''
         
         # perform the calculate for mu based on the m step
-        self.points = points
-        self.mu = -1
+        # self.points = points
+        for idx, possibility in enumerate(self.w):
+            self.mu += possibility[self.id] * self.cluster.getX()[idx].getX()
 
-    def calculate_big_sig(self, points):
+        self.mu = self.mu / self.cum_w
+
+    def calculate_big_sig(self):
         '''
         calculate the big_sig based on the EM update (Ng)
 
@@ -78,8 +89,21 @@ class GaussianDistribution:
         '''
 
         # perform the calculation for big sig based on the m step
-        self.points = points
-        self.big_sig = -1
+        # self.points = points
+        for idx, possibility in enumerate(self.w):
+            self.big_sig += self.w[idx] * np.matmul( (self.cluster.getX()[idx].getX() - self.mu), \
+                            np.transpose(self.cluster.getX()[idx].getX() - self.mu) )
+
+        self.big_sig / self.cum_w
+
+    def replace_cluster(self, new_cluster):
+        self.cluster = new_cluster
+
+    def replace_w(self, new_w):
+        self.w = new_w
+
+    def addW(self, a_w):
+        self.w.append(a_w)
 
     def getPhi(self):
         '''
