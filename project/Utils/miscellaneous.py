@@ -89,5 +89,81 @@ def load_iris_data_as_samples(k):
     return samples
         
 
+def sum_squared_errors(samples, target):
+    sse = 0
+    for sample in samples:
+        x = np.array(sample.getX())
+        dif = target - x
+        for dimension in dif:
+            sse += dimension * dimension
+    return sse
 
+
+def silhouette(clusters, centroids):
+    # a = mean intra-cluster distance
+    a = 0
+    tot = 0
+    for idx in range(len(centroids)):
+        samples = clusters[idx].getX()
+        centroid = centroids[idx]
+        tot += len(samples)
+        a += sum_squared_errors(samples, centroid)
+    a = a/tot
+
+    # b = mean nearest-cluster distance
+    b = 0
+    for i in range(len(centroids)):
+        samples = clusters[i].getX()
+        for sample in samples:
+            # Find the smallest nearest-cluster distance for the current sample
+            distances = []
+            for j in range(len(centroids)):
+                if j == i: continue
+                dif = centroids[j] - np.array(sample.getX())
+                dist = 0
+                for dimension in dif:
+                    dist += dimension * dimension
+                distances.append(dist)
+            b += min(distances)
+    b = b/tot
+
+    # Now the silhouette idx is given by (b-a)/max(a,b)
+    return (b-a)/max(a,b)
+
+
+def dunn(clusters):
+    # delta = the smallest distance between any two points not in the same cluster
+    delta = float('inf')
+    for i in range(len(clusters)):
+        samples1 = clusters[i].getX()
+        for j in range(len(clusters)):
+            if j==i: continue
+            samples2 = clusters[j].getX()
+            # i and j are keeping track of the clusters being compared
+            for s1 in samples1:
+                for s2 in samples2:
+                    dif = np.array(s1.getX()) - np.array(s2.getX())
+                    dist = 0
+                    for dimension in dif:
+                        dist += dimension * dimension
+                    if dist < delta:
+                        delta = dist
+
+    # Delta = the maximum distance between any two points in the same cluster
+    Delta = 0
+    for cluster in clusters:
+        samples = cluster.getX()
+        for i in range(len(samples)):
+            for j in range(i, len(samples)):
+                x1 = np.array(samples[i].getX())
+                x2 = np.array(samples[j].getX())
+                dif = x1 - x2
+                dist = 0
+                for dimension in dif:
+                    dist += dimension * dimension
+                if dist > Delta:
+                    Delta = dist
+    
+    # The dunn index is measured by the ratio between (smallest nearest neighbor) and (largest cluster diameter)
+    return delta/Delta
 

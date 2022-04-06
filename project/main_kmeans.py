@@ -1,4 +1,4 @@
-from Utils.miscellaneous import load_image_as_samples, load_gaussian_file_as_samples, visualize_gaussian_1d, load_iris_data_as_samples
+from Utils.miscellaneous import *
 from KMeans.kmeans import KMeans
 import numpy as np
 from matplotlib import pyplot
@@ -55,16 +55,38 @@ def run_image_test(theta):
 
 
 def run_iris_test(theta):
+    metric = theta
     num_clusters = 3
     samples = load_iris_data_as_samples(num_clusters)
-    print(samples[0])
+    # Cluster the iris data
+    model = KMeans(samples=samples, k=num_clusters, dimensions=4)
+    model.learn(C=2/len(samples))
+    # Evaluate based on the metric
+    result = 0
+    clusters = model.getClusters()
+    centroids = model.getCentroids()
+    if metric == 'SSE':
+        for idx in range(len(centroids)):
+            result += sum_squared_errors(clusters[idx].getX(), centroids[idx])
+        print(f'{metric}: {result}')
+        return result
+    elif metric == 'Silhouette':
+        # NOTE: 1 is the best, -1 is the worst
+        result = silhouette(clusters, centroids)
+        print(f'{metric}: {result}')
+        return result
+    elif metric == 'Dunn':
+        # NOTE: larger dunn index is better
+        result = dunn(clusters)
+        print(f'{metric}: {result}')
+        return result
 
 
 
 if  __name__ == "__main__":
     run_gaussian_tests = False
-    run_image_tests = True
-    run_iris_tests = False
+    run_image_tests = False
+    run_iris_tests = True
 
     Theta_Gaussian = [
         # file_no, number_of_clusters, 
@@ -139,11 +161,11 @@ if  __name__ == "__main__":
             run_image_test(theta)
             
     Iris_Theta = [
-        ('SSE'),
-        ('Silhouette'),
-        ('Other')
+        'SSE',
+        'Silhouette',
+        'Dunn'
     ]
     if run_iris_tests:
         for theta in Iris_Theta:
             run_iris_test(theta)
-            break
+            
