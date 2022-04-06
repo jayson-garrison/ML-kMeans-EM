@@ -2,7 +2,7 @@ import os
 
 if __name__ == "__main__":
     email_in_path = os.getcwd() + "//project//Datasets//Email//emails.csv"
-    email_out_path = os.getcwd() + "//project//Datasets//Email//email_for_wmd.txt"
+    email_out_path = os.getcwd() + "//project//Datasets//Email//email_for_docs.txt"
     in_file = open(email_in_path)
     out_file = open(email_out_path, 'w')
     vocab = in_file.readline()[6:].split(',')

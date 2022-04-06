@@ -17,6 +17,7 @@ def load_image_as_samples(image_name, k):
             samples.append(sample)
     return samples
 
+
 def load_gaussian_file_as_samples(file_no, k):
     cwd = os.getcwd()
     local_path = cwd+"\\project\\Datasets\\Gaussian\\"
@@ -166,4 +167,5 @@ def dunn(clusters):
     
     # The dunn index is measured by the ratio between (smallest nearest neighbor) and (largest cluster diameter)
     return delta/Delta
+
 
