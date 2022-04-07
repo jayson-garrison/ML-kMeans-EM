@@ -35,6 +35,7 @@ class Sample:
         @return dim(x)
         '''
         return len(self.x)
+        
     def getTrueLabel(self):
         return self.true_label
 

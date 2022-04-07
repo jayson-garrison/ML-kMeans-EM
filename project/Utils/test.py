@@ -1,5 +1,6 @@
 # from matplotlib import image, pyplot
 # import os
+import numpy as np
 
 # cwd = os.getcwd()
 # utils = cwd+"\\project\\Utils\\"
@@ -11,7 +12,13 @@
 # # display the array of pixels as an image
 # pyplot.imshow(me_n_the_boys)
 # pyplot.show()
+a = np.array(((2,2),(3,3),(4,4)))
+print(a)
+print(a+2)
+print(np.transpose(a))
 
-lister = list()
+z = np.zeros((3,3))
+print(z)
 
-lister[2].append(5)
+print(np.exp(3))
+print(a.size)
