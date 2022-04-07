@@ -3,7 +3,7 @@ import numpy as np
 from Utils.Cluster import Cluster
 class GaussianDistribution:
 
-    def __init__(self, cluster, num_samples, k) -> None:
+    def __init__(self, cluster, num_samples, k, dim) -> None:
         '''
         Gaussian Distribution
 
@@ -22,7 +22,7 @@ class GaussianDistribution:
         self.num_samples = num_samples
         self.id = k
         # if div doesnt work use matmul by a scalar
-        self.dim = cluster.getX()[0].getDim()
+        self.dim = dim
         self.cluster = cluster
         self.phi = cluster.getMagnitude() / num_samples
         self.w = list()
@@ -163,3 +163,6 @@ class GaussianDistribution:
 
     def getW(self):
         return self.w
+
+    def getCluster(self):
+        return self.cluster

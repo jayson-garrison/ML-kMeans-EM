@@ -17,12 +17,7 @@ def load_image_as_samples(image_name, k):
             samples.append(sample)
     return samples
 
-<<<<<<< HEAD
-
-def load_gaussian_file_as_samples(file_no, k):
-=======
 def load_gaussian_file_as_samples(file_no, k, linux=False):
->>>>>>> jayso-EM
     cwd = os.getcwd()
     if not linux:
         local_path = cwd+"\\project\\Datasets\\Gaussian\\"

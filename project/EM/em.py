@@ -29,7 +29,7 @@ class ExpectationMaximization:
         
         # create distributions
         for idx, cluster in enumerate(clusters):
-            self.distributions.append(GaussianDistribution(cluster, len(samples), idx ) )
+            self.distributions.append(GaussianDistribution(cluster, len(samples), idx, samples[0].getDim() ) )
 
     def learn(self, convergence):
         i = 0
@@ -139,12 +139,12 @@ class ExpectationMaximization:
         # cluster that were generated from the same source.
         N = len(self.space)
         likelihood = 0
-        for cluster in self.clusters:
+        for distribution in self.distributions:
             # Each cluster may contain points from more than one class.
             # Determine the number of points from each class in the cluster.
             true_label_cts = dict()
-            n = len(cluster.getX())
-            for sample in cluster.getX():
+            n = len(distribution.getCluster().getX())
+            for sample in distribution.getCluster().getX():
                 label = sample.getTrueLabel()
                 if label not in true_label_cts:
                     true_label_cts[label] = 0

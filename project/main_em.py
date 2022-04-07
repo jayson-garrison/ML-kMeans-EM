@@ -10,35 +10,35 @@ def run_gaussian_test(theta):
     num_clusters = theta[1]
     samples = load_gaussian_file_as_samples(file_no=file_no, k=num_clusters, linux=True)
 
-    if False:
+    # if True:
 
-        # log the data
-        data_file_name = f'project/EM/Output/Gaussian/Data/file{file_no}_clusters{num_clusters}.txt'
-        os.makedirs(os.path.dirname(data_file_name), exist_ok=True)
+    # log the data
+    data_file_name = f'project/EM/Output/Gaussian/Data/file{file_no}_clusters{num_clusters}.txt'
+    os.makedirs(os.path.dirname(data_file_name), exist_ok=True)
 
-    
-        with open(data_file_name, 'w') as log:
-            # Calc accuracies
-            X = []
-            Y = []
-            for test in range(50):
 
-                model = ExpectationMaximization(samples, num_clusters)
-                model.learn(10)
-                likelihood = model.evaluate_likelihood()
+    with open(data_file_name, 'w') as log:
+        # Calc accuracies
+        X = []
+        Y = []
+        for test in range(25):
 
-                X.append(test)
-                Y.append(likelihood)
-                log.write(str(test)+" "+str(likelihood)+"\n")
-            # save a visualization of the data from the tests as a line plot
-            pyplot.plot(X, Y)
-            pyplot.xlabel("Test Number")
-            pyplot.ylabel("Likelihood of Clusters")
-            lineplot_file_name = f'project/EM/Output/Gaussian/LinePlots/file{file_no}_clusters{num_clusters}.jpg'
-            os.makedirs(os.path.dirname(lineplot_file_name), exist_ok=True)
-            pyplot.savefig(lineplot_file_name)
-            pyplot.close()
-            log.close()
+            model = ExpectationMaximization(samples, num_clusters)
+            model.learn(10)
+            likelihood = model.evaluate_likelihood()
+
+            X.append(test)
+            Y.append(likelihood)
+            log.write(str(test)+" "+str(likelihood)+"\n")
+        # save a visualization of the data from the tests as a line plot
+        pyplot.plot(X, Y)
+        pyplot.xlabel("Test Number")
+        pyplot.ylabel("Likelihood of Clusters")
+        lineplot_file_name = f'project/EM/Output/Gaussian/LinePlots/file{file_no}_clusters{num_clusters}.jpg'
+        os.makedirs(os.path.dirname(lineplot_file_name), exist_ok=True)
+        pyplot.savefig(lineplot_file_name)
+        pyplot.close()
+        log.close()
 
     # save one visualization of estimated mean
     visual_file_name = f'project/EM/Output/Gaussian/ClusterVisuals/file{file_no}_clusters{num_clusters}.jpg'
@@ -47,31 +47,18 @@ def run_gaussian_test(theta):
     # model = KMeans(samples=samples, k=num_clusters, dimensions=1)
     # model.learn(C=2/len(samples))
     model = ExpectationMaximization(samples, num_clusters)
-    model.learn(25)
+    model.learn(10)
 
     visualize_gaussian_1d(file_no=file_no, estimted_means=model.getMeans(), save_path=visual_file_name, show=False, linux=True)
     print(f'estimated means: {model.getMeans()}')
-
-def run_image_test(theta):
-    img_name = theta[0] + ".jpg"
-    num_clusters = theta[1]
-    samples = load_image_as_samples(img_name, num_clusters)
-    img_output_name = f'project/KMeans/Output/Images/{theta[0]}_clusters{num_clusters}.jpg'
-    os.makedirs(os.path.dirname(img_output_name), exist_ok=True)
-
-    # Compress the image
-    model = KMeans(samples=samples, k=num_clusters, dimensions=3)
-    model.learn(C=2/len(samples))
-    model.paint_by_numbers(img_name, save_path=img_output_name, show=False)
-
 
 def run_iris_test(theta):
     metric = theta
     num_clusters = 3
     samples = load_iris_data_as_samples(num_clusters)
     # Cluster the iris data
-    model = KMeans(samples=samples, k=num_clusters, dimensions=4)
-    model.learn(C=2/len(samples))
+    model = ExpectationMaximization(samples, num_clusters)
+    model.learn(25)
     # Evaluate based on the metric
     result = 0
     clusters = model.getClusters()
