@@ -19,6 +19,10 @@ class GaussianDistribution:
         of this space)
         
         '''
+        # print("points:")
+        # for point in cluster.getX():
+        #     print(point.getX(), end=" ")
+
         self.num_samples = num_samples
         self.id = k
         # if div doesnt work use matmul by a scalar
@@ -27,7 +31,11 @@ class GaussianDistribution:
         self.phi = cluster.getMagnitude() / num_samples
         self.w = list()
 
-        total = np.zeros(self.dim)
+        # col vector
+        total = np.zeros([self.dim])
+        total = np.array([total])
+        total = total.T
+        # print(total)
 
         for point in cluster.getX():
             total += point.getX()
@@ -48,8 +56,17 @@ class GaussianDistribution:
 
     def calculate_gaussian_density(self, given_sample):
         gd = 1 / ( (2*np.pi)**(self.dim/2) * (np.linalg.det(self.big_sig))**(.5) )
-        gd = gd * np.exp( -.5 * np.matrix.transpose( given_sample - self.mu ) * \
-                           np.linalg.pinv(self.big_sig) * (given_sample - self.mu) )
+        #print(f'{gd} is a number')
+        gd2 = np.exp( -.5 * np.matmul(np.matmul(np.matrix.transpose( given_sample - self.mu ), \
+                           np.linalg.pinv(self.big_sig) ), (given_sample - self.mu) ) )
+        # print(np.matrix.transpose( given_sample - self.mu ))
+        # print(np.linalg.pinv(self.big_sig)) # should be n by n
+        # print((given_sample - self.mu))
+
+        #print(f'{gd2} should be a number')  
+        gd = gd * gd2  
+        #print(f'{gd} is therefore a number')               
+        #print(gd)
 
         return gd
 
@@ -85,7 +102,12 @@ class GaussianDistribution:
         if ng:
             # perform the calculate for mu based on the m step
             # reset mu for update
-            self.mu = np.zeros(self.dim)
+
+            # making a zero col vector
+            #self.mu = np.zeros(self.dim)
+            self.mu = np.zeros([self.dim])
+            self.mu = np.array([self.mu])
+            self.mu = self.mu.T
 
             for idx, possibility in enumerate(self.w):
                 #print(possibility)
@@ -96,7 +118,9 @@ class GaussianDistribution:
 
         # intuitive
         else:
-            self.mu = np.zeros(self.dim)
+            self.mu = np.zeros([self.dim])
+            self.mu = np.array([self.mu])
+            self.mu = self.mu.T
 
             for sample in self.cluster.getX():
                 self.mu += sample.getX()

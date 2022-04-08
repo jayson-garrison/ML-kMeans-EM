@@ -17,60 +17,73 @@ def run_gaussian_test(theta):
     os.makedirs(os.path.dirname(data_file_name), exist_ok=True)
 
 
-    with open(data_file_name, 'w') as log:
-        # Calc accuracies
-        X = []
-        Y = []
-        for test in range(25):
+    # with open(data_file_name, 'w') as log:
+    #     # Calc accuracies
+    #     X = []
+    #     Y = []
+    #     for test in range(25):
 
-            model = ExpectationMaximization(samples, num_clusters)
-            model.learn(10)
-            likelihood = model.evaluate_likelihood()
+    #         model = ExpectationMaximization(samples, num_clusters)
+    #         model.learn(10)
+    #         likelihood = model.evaluate_likelihood()
 
-            X.append(test)
-            Y.append(likelihood)
-            log.write(str(test)+" "+str(likelihood)+"\n")
-        # save a visualization of the data from the tests as a line plot
-        pyplot.plot(X, Y)
-        pyplot.xlabel("Test Number")
-        pyplot.ylabel("Likelihood of Clusters")
-        lineplot_file_name = f'project/EM/Output/Gaussian/LinePlots/file{file_no}_clusters{num_clusters}.jpg'
-        os.makedirs(os.path.dirname(lineplot_file_name), exist_ok=True)
-        pyplot.savefig(lineplot_file_name)
-        pyplot.close()
-        log.close()
+    #         X.append(test)
+    #         Y.append(likelihood)
+    #         log.write(str(test)+" "+str(likelihood)+"\n")
+    #     # save a visualization of the data from the tests as a line plot
+    #     pyplot.plot(X, Y)
+    #     pyplot.xlabel("Test Number")
+    #     pyplot.ylabel("Likelihood of Clusters")
+    #     lineplot_file_name = f'project/EM/Output/Gaussian/LinePlots/file{file_no}_clusters{num_clusters}.jpg'
+    #     os.makedirs(os.path.dirname(lineplot_file_name), exist_ok=True)
+    #     pyplot.savefig(lineplot_file_name)
+    #     pyplot.close()
+    #     log.close()
 
     # save one visualization of estimated mean
     visual_file_name = f'project/EM/Output/Gaussian/ClusterVisuals/file{file_no}_clusters{num_clusters}.jpg'
     os.makedirs(os.path.dirname(visual_file_name), exist_ok=True)
 
-    # model = KMeans(samples=samples, k=num_clusters, dimensions=1)
-    # model.learn(C=2/len(samples))
     model = ExpectationMaximization(samples, num_clusters)
-    model.learn(10)
+    model.learn(15)
+    # exit()
 
     visualize_gaussian_1d(file_no=file_no, estimted_means=model.getMeans(), save_path=visual_file_name, show=False, linux=True)
     print(f'estimated means: {model.getMeans()}')
+def run_image_test(theta):
+    img_name = theta[0] + ".jpg"
+    num_clusters = theta[1]
+    samples = load_image_as_samples(img_name, num_clusters)
+    img_output_name = f'project/KMeans/Output/Images/{theta[0]}_clusters{num_clusters}.jpg'
+    os.makedirs(os.path.dirname(img_output_name), exist_ok=True)
+
+    # Compress the image
+    model = KMeans(samples=samples, k=num_clusters, dimensions=3)
+    model.learn(C=2/len(samples))
+    model.paint_by_numbers(img_name, save_path=img_output_name, show=False)
 
 def run_iris_test(theta):
     metric = theta
     num_clusters = 3
-    samples = load_iris_data_as_samples(num_clusters)
+    samples = load_iris_data_as_samples(num_clusters, linux=True)
     # Cluster the iris data
     model = ExpectationMaximization(samples, num_clusters)
     model.learn(25)
     # Evaluate based on the metric
     result = 0
-    clusters = model.getClusters()
-    centroids = model.getCentroids()
+    clusters = list()
+    dists = model.getDistributions()
+    for dist in dists:
+        clusters.append(dist.getCluster())
+    means = model.getMeans()
     if metric == 'SSE':
-        for idx in range(len(centroids)):
-            result += sum_squared_errors(clusters[idx].getX(), centroids[idx])
+        for idx in range(len(means)):
+            result += sum_squared_errors(clusters[idx].getX(), means[idx])
         print(f'{metric}: {result}')
         return result
     elif metric == 'Silhouette':
         # NOTE: 1 is the best, -1 is the worst
-        result = silhouette(clusters, centroids)
+        result = silhouette(clusters, means)
         print(f'{metric}: {result}')
         return result
     elif metric == 'Dunn':

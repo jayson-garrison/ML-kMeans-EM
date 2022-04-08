@@ -69,9 +69,13 @@ class ExpectationMaximization:
                 # determine the density for each dist of this point
                 for distribution in self.distributions:
                     gdens.append(distribution.calculate_gaussian_density(sample.getX()))
+                # for i in range(len(self.distributions)):
+                #     distribution = self.distributions[i]
+                #     gdens.append(distribution.calculate_gaussian_density(sample.getX()))
 
                 # the one with the highest density is the best dist to 
                 # assign this point to
+                #print(gdens)
                 biggest = max(gdens)
                 new_y = gdens.index(biggest)
                 sample.setY(new_y)
@@ -132,6 +136,9 @@ class ExpectationMaximization:
         return means
     def clear_w(self):
         self.w = list()
+
+    def getDistributions(self):
+        return self.distributions
 
     def evaluate_likelihood(self):
         # the likelihood that two points chosen to be in the same cluster by a clustering algorithm

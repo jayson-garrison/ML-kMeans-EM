@@ -12,13 +12,13 @@ import numpy as np
 # # display the array of pixels as an image
 # pyplot.imshow(me_n_the_boys)
 # pyplot.show()
-a = np.array(((2,2),(3,3),(4,4)))
+a = np.array([[2,2,2]])
+b = a.T
 print(a)
-print(a+2)
-print(np.transpose(a))
-
-z = np.zeros((3,3))
-print(z)
-
-print(np.exp(3))
-print(a.size)
+print(b)
+c = np.matmul(b,a)
+print(np.linalg.det(c))
+x = np.array([[2,3,4]])
+x = x.T
+print(x)
+print(type(x))

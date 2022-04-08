@@ -81,15 +81,19 @@ def visualize_gaussian_1d(file_no, estimted_means=[], save_path="", show=True, l
     pyplot.close()
 
 
-def load_iris_data_as_samples(k):
+def load_iris_data_as_samples(k, linux=False):
     cwd = os.getcwd()
-    local_path = cwd+"\\project\\Datasets\\Iris\\"
+    if not linux:
+        local_path = cwd+"\\project\\Datasets\\Iris\\"
+    else:
+        local_path = cwd+"/project/Datasets/Iris/"
     fname = local_path+"iris.csv"
     file = open(fname)
     samples = []
     for line in file:
         content = line.split(',')
-        x = [float(content[0]), float(content[1]), float(content[2]), float(content[3])]
+        x = np.array([[float(content[0]), float(content[1]), float(content[2]), float(content[3])]])
+        x = x.T
         y = content[4]
         sample = Sample(x, np.random.randint(k), y)
         samples.append(sample)
