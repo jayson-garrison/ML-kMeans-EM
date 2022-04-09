@@ -17,10 +17,12 @@ def load_image_as_samples(image_name, k):
             samples.append(sample)
     return samples
 
-
-def load_gaussian_file_as_samples(file_no, k):
+def load_gaussian_file_as_samples(file_no, k, linux=False):
     cwd = os.getcwd()
-    local_path = cwd+"\\project\\Datasets\\Gaussian\\"
+    if not linux:
+        local_path = cwd+"\\project\\Datasets\\Gaussian\\"
+    else:
+        local_path = cwd+"/project/Datasets/Gaussian/"
     fname = local_path+"File"+str(file_no)+".txt"
     file = open(fname)
     samples = []
@@ -32,9 +34,13 @@ def load_gaussian_file_as_samples(file_no, k):
         samples.append(sample)
     return samples
     
-def visualize_gaussian_1d(file_no, estimted_means=[], save_path="", show=True):
+def visualize_gaussian_1d(file_no, estimted_means=[], save_path="", show=True, linux=False):
     cwd = os.getcwd()
-    local_path = cwd+"\\project\\Datasets\\Gaussian\\"
+    if not linux:
+        local_path = cwd+"\\project\\Datasets\\Gaussian\\"
+    else:
+        local_path = cwd+"/project/Datasets/Gaussian/"
+        
     fname = local_path+"File"+str(file_no)+".txt"
     file = open(fname)
     X=dict()
@@ -75,15 +81,19 @@ def visualize_gaussian_1d(file_no, estimted_means=[], save_path="", show=True):
     pyplot.close()
 
 
-def load_iris_data_as_samples(k):
+def load_iris_data_as_samples(k, linux=False):
     cwd = os.getcwd()
-    local_path = cwd+"\\project\\Datasets\\Iris\\"
+    if not linux:
+        local_path = cwd+"\\project\\Datasets\\Iris\\"
+    else:
+        local_path = cwd+"/project/Datasets/Iris/"
     fname = local_path+"iris.csv"
     file = open(fname)
     samples = []
     for line in file:
         content = line.split(',')
-        x = [float(content[0]), float(content[1]), float(content[2]), float(content[3])]
+        x = np.array([[float(content[0]), float(content[1]), float(content[2]), float(content[3])]])
+        x = x.T
         y = content[4]
         sample = Sample(x, np.random.randint(k), y)
         samples.append(sample)
