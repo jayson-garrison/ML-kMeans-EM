@@ -168,4 +168,6 @@ if  __name__ == "__main__":
     if run_iris_tests:
         for theta in Iris_Theta:
             run_iris_test(theta)
-            
+            # SSE: 78.85144142614604
+            # Silhouette: 0.9147817577965138
+            # Dunn: 0.011976047904191642

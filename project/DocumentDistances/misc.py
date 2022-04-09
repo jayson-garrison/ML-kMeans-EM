@@ -4,6 +4,7 @@ from DocumentDistances.doc2vec_email import *
 from DocumentDistances.doc2vec_psalms import *
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib import lines
 
 
 def load_email_as_samples():
@@ -81,9 +82,13 @@ def visualize_psalms_in_3d():
         z2.append(vector[2])
     ax.scatter(x2, y2, z2, marker='o', alpha=.05)
 
-    ax.set_xlabel('X Label')
-    ax.set_ylabel('Y Label')
-    ax.set_zlabel('Z Label')
+    ax.set_xlabel('X')
+    ax.set_ylabel('Y')
+    ax.set_zlabel('Z')
+
+    blue_triangles = lines.Line2D([], [], color='blue', marker='^', linestyle='None', label='RSVCE Verse Embeddings')
+    orange_circles = lines.Line2D([], [], color='orange', marker='o', linestyle='None', label='KJV Verse Embeddings')
+    plt.legend(handles=[blue_triangles, orange_circles])
 
     plt.show()
 
